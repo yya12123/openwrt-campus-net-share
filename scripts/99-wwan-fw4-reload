@@ -1,0 +1,21 @@
+#!/bin/sh
+# 安装位置: /etc/hotplug.d/iface/99-wwan-fw4-reload
+# 权限:     chmod +x
+#
+# 作用：WiFi 客户端接口（wwan）起来以后，重新生成一遍防火墙规则。
+#
+# 为什么需要它（本仓库最隐蔽的坑）：
+#   开机时 fw4 先于 WiFi 关联生成规则，此时 `wwan` 还没有实际接口，
+#   生成的转发/NAT 规则里可能只有物理网口 `wan`，不含 `phyX-sta0`。
+#   结果：TCP 因为被 UA3F 重定向到本机（走 INPUT）而正常，
+#        但 UDP/ICMP 走真正的 FORWARD，撞上默认 drop ——
+#        表现为"网页能上，但所有游戏、语音、加速器全废"。
+#
+# 症状自查： nft list ruleset | grep -c phy1-sta0    # 返回 0 就是中招
+
+[ "$ACTION" = "ifup" ] || exit 0
+[ "$INTERFACE" = "wwan" ] || exit 0
+
+logger -t wwan-hotplug "wwan ifup -> fw4 reload"
+sleep 3
+fw4 reload >/dev/null 2>&1

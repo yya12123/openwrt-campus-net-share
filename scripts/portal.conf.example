@@ -1,0 +1,15 @@
+# 安装位置: /etc/portal.conf
+# 权限:     chmod 600 /etc/portal.conf
+# 说明:     portal-login.sh 会自动 source 这个文件
+
+# 认证服务器地址（从浏览器被劫持时的跳转 URL 里抄，只要 IP 部分）
+# 例: 跳转到 http://10.0.0.1/eportal/index.jsp?...  → 这里填 10.0.0.1
+PORTAL_HOST="10.0.0.1"
+
+# 校园网账号
+PORTAL_USER="你的学号"
+PORTAL_PASS="你的密码"
+
+# 用来判断"是否已认证"的探测地址
+# 要求：未认证时会被劫持并重定向到 Portal 页
+PROBE_URL="http://www.baidu.com"

@@ -1,0 +1,31 @@
+# 凭据与本机配置：绝对不能提交
+portal.conf
+*.key
+id_ed25519
+id_ed25519.pub
+router_key
+router_key.pub
+密码*
+*password*
+*密码*
+
+# 固件与备份：体积大，且含个人设备数据
+*.bin
+*.ipk
+*.apk
+firmware/
+backup/
+pkgs/
+
+# 日志与扫描结果
+*.log
+*.txt
+scan*.txt
+net-quality.log
+
+# 系统与编辑器
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
